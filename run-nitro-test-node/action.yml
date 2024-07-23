@@ -31,13 +31,17 @@ inputs:
   token-bridge-branch:
     required: false
     description: 'The token-bridge-contracts branch to use'
+  nitro-testnode-repo:
+    required: false
+    default: 'OffchainLabs/nitro-testnode'
+    description: 'The testnode repo we want to use to test.'
 runs:
   using: 'composite'
   steps:
     - name: Checkout
       uses: actions/checkout@v3
       with:
-        repository: OffchainLabs/nitro-testnode
+        repository: ${{ inputs.nitro-testnode-repo }}
         submodules: true
         path: 'nitro-testnode'
         ref: ${{ inputs.nitro-testnode-ref }}
