@@ -74,7 +74,7 @@ runs:
     - name: Wait for L3 startup
       if: ${{ inputs.l3-node == 'true' }}
       shell: bash
-      run: ${{ github.action_path }}/waitForNitro.sh 9642
+      run: ${{ github.action_path }}/waitForNitro.sh 3347
 
     - name: Wait for token bridge deployment
       if: ${{ inputs.no-token-bridge != 'true' }}
