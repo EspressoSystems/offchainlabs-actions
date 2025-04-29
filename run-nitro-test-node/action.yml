@@ -46,6 +46,15 @@ runs:
         path: 'nitro-testnode'
         ref: ${{ inputs.nitro-testnode-ref }}
 
+    - name: Wait for nitro startup
+      shell: bash
+      run: ${{ github.action_path }}/waitForNitro.sh 8547
+
+    - name: Wait for L3 startup
+      if: ${{ inputs.l3-node == 'true' }}
+      shell: bash
+      run: ${{ github.action_path }}/waitForNitro.sh 3347
+
     - name: Start background nitro-testnode test-node.bash
       shell: bash
       # Currently, you can't run parallel steps, so we add the "&" to run this step in the background
@@ -66,15 +75,6 @@ runs:
           ${{ inputs.no-token-bridge == 'true' && '--no-tokenbridge' || '--tokenbridge' }} \
           ${{ inputs.l3-node == 'true' && inputs.no-l3-token-bridge != 'true' && '--l3-token-bridge' || '' }} \
           ${{ inputs.args }} &
-
-    - name: Wait for nitro startup
-      shell: bash
-      run: ${{ github.action_path }}/waitForNitro.sh 8547
-
-    - name: Wait for L3 startup
-      if: ${{ inputs.l3-node == 'true' }}
-      shell: bash
-      run: ${{ github.action_path }}/waitForNitro.sh 3347
 
     - name: Wait for token bridge deployment
       if: ${{ inputs.no-token-bridge != 'true' }}
